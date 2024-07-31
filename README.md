@@ -1,3 +1,5 @@
+<img align="center" src="https://i.imgur.com/nWj1sme.jpeg">
+
 # PACO MUEBLES
 
 El proyecto final consiste en la creación de una aplicación usando cualquier lenguaje de programación para desarrollar una aplicación que utilice una base de datos.
