@@ -1,0 +1,150 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema pacomuebles
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema pacomuebles
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `pacomuebles` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci ;
+USE `pacomuebles` ;
+
+-- -----------------------------------------------------
+-- Table `pacomuebles`.`USUARIOS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pacomuebles`.`USUARIOS` (
+  `USER` VARCHAR(20) NOT NULL,
+  `PASSWORD` VARCHAR(16) NOT NULL,
+  `PERMISSION` TINYINT(1) NOT NULL,
+  UNIQUE INDEX `USER_UNIQUE` (`USER` ASC),
+  PRIMARY KEY (`USER`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pacomuebles`.`PROVEEDORES`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pacomuebles`.`PROVEEDORES` (
+  `ID_PROVEEDOR` VARCHAR(5) NOT NULL,
+  `NOMBRE_PROVEEDOR` VARCHAR(100) NOT NULL,
+  `NOMBRE_CONTACTO` VARCHAR(50) NULL,
+  `PROVINCIA` VARCHAR(100) NOT NULL,
+  `CIUDAD` VARCHAR(100) NOT NULL,
+  `TELEFONO` VARCHAR(20) NOT NULL,
+  `EMAIL` VARCHAR(100) NOT NULL,
+  `ESTADO` TINYINT(1) NULL,
+  UNIQUE INDEX `ID_PROVEEDORES_UNIQUE` (`ID_PROVEEDOR` ASC),
+  PRIMARY KEY (`ID_PROVEEDOR`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pacomuebles`.`PRODUCTOS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pacomuebles`.`PRODUCTOS` (
+  `ID_PRODUCTO` VARCHAR(5) NOT NULL,
+  `NOMBRE_PRODUCTO` VARCHAR(100) NOT NULL,
+  `ESTADO` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  UNIQUE INDEX `ID_PRODUCTO_UNIQUE` (`ID_PRODUCTO` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pacomuebles`.`TIENDAS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pacomuebles`.`TIENDAS` (
+  `ID_TIENDA` VARCHAR(5) NOT NULL,
+  `NOMBRE_TIENDA` VARCHAR(100) NOT NULL,
+  `RESPONSABLE` VARCHAR(45) NOT NULL,
+  `TELEFONO` VARCHAR(20) NOT NULL,
+  `ESTADO` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`ID_TIENDA`),
+  UNIQUE INDEX `ID_TIENDA_UNIQUE` (`ID_TIENDA` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pacomuebles`.`PEDIDOS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pacomuebles`.`PEDIDOS` (
+  `ID_PEDIDO` VARCHAR(5) NOT NULL,
+  `ID_PROVEEDOR` VARCHAR(5) NOT NULL,
+  `ID_TIENDA` VARCHAR(5) NOT NULL,
+  `NOMBRE_PROVEEDOR` VARCHAR(100) NOT NULL,
+  `NOMBRE_TIENDA` VARCHAR(100) NOT NULL,
+  `FECHA_PEDIDO` DATE NOT NULL,
+  `FECHA_ENTREGA` DATE NULL,
+  `OBSERVACIONES` VARCHAR(200) NULL,
+  `ESTADO` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`ID_PEDIDO`, `ID_PROVEEDOR`, `ID_TIENDA`),
+  INDEX `fk_PEDIDOS_PROVEEDORES1_idx` (`ID_PROVEEDOR` ASC),
+  INDEX `fk_PEDIDOS_TIENDAS1_idx` (`ID_TIENDA` ASC),
+  UNIQUE INDEX `ID_PEDIDO_UNIQUE` (`ID_PEDIDO` ASC),
+  CONSTRAINT `fk_PEDIDOS_PROVEEDORES1`
+    FOREIGN KEY (`ID_PROVEEDOR`)
+    REFERENCES `pacomuebles`.`PROVEEDORES` (`ID_PROVEEDOR`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PEDIDOS_TIENDAS1`
+    FOREIGN KEY (`ID_TIENDA`)
+    REFERENCES `pacomuebles`.`TIENDAS` (`ID_TIENDA`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pacomuebles`.`PRODUCTOSxPEDIDOS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pacomuebles`.`PRODUCTOSxPEDIDOS` (
+  `ID_PEDIDO` VARCHAR(5) NOT NULL,
+  `ID_PRODUCTO` VARCHAR(5) NOT NULL,
+  `NOMBRE_PRODUCTO` VARCHAR(100) NOT NULL,
+  `PRECIO_PRODUCTO` FLOAT NOT NULL,
+  `CANTIDAD` INT NOT NULL,
+  `IVA` INT NOT NULL,
+  `PRECIO` FLOAT NOT NULL,
+  PRIMARY KEY (`ID_PEDIDO`, `ID_PRODUCTO`),
+  INDEX `fk_PRODUCTOS_has_PEDIDOS_PEDIDOS1_idx` (`ID_PEDIDO` ASC),
+  INDEX `fk_PRODUCTOS_has_PEDIDOS_PRODUCTOS_idx` (`ID_PRODUCTO` ASC),
+  CONSTRAINT `fk_PRODUCTOS_has_PEDIDOS_PRODUCTOS`
+    FOREIGN KEY (`ID_PRODUCTO`)
+    REFERENCES `pacomuebles`.`PRODUCTOS` (`ID_PRODUCTO`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PRODUCTOS_has_PEDIDOS_PEDIDOS1`
+    FOREIGN KEY (`ID_PEDIDO`)
+    REFERENCES `pacomuebles`.`PEDIDOS` (`ID_PEDIDO`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pacomuebles`.`FACTURAS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pacomuebles`.`FACTURAS` (
+  `ID_FACTURA` VARCHAR(5) NOT NULL,
+  `ID_PEDIDO` VARCHAR(5) NOT NULL,
+  `FECHA_EMISION` DATE NOT NULL,
+  `IMPORTE_TOTAL` FLOAT NOT NULL,
+  PRIMARY KEY (`ID_FACTURA`, `ID_PEDIDO`),
+  INDEX `fk_FACTURAS_PRODUCTOS_has_PEDIDOS1_idx` (`ID_PEDIDO` ASC),
+  UNIQUE INDEX `ID_FACTURA_UNIQUE` (`ID_FACTURA` ASC),
+  CONSTRAINT `fk_FACTURAS_PRODUCTOS_has_PEDIDOS1`
+    FOREIGN KEY (`ID_PEDIDO`)
+    REFERENCES `pacomuebles`.`PRODUCTOSxPEDIDOS` (`ID_PEDIDO`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

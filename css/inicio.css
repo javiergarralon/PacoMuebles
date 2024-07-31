@@ -1,0 +1,127 @@
+    #wrapper {
+        overflow-x: hidden;
+    }
+    
+    #sidebar-wrapper {
+        min-height: 100vh;
+        margin-left: -15rem;
+        -webkit-transition: margin .25s ease-out;
+        -moz-transition: margin .25s ease-out;
+        -o-transition: margin .25s ease-out;
+        transition: margin .25s ease-out;
+    }
+    
+    #sidebar-wrapper .sidebar-heading {
+        padding: 0.875rem 1.25rem;
+        font-size: 1.2rem;
+    }
+    
+    #sidebar-wrapper .list-group {
+        width: 15rem;
+    }
+    
+    #page-content-wrapper {
+        min-width: 100vw;
+    }
+    
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+    
+    #reloj,
+    #casillareloj {
+        text-align: center;
+    }
+    
+    #fecha {
+        text-align: center;
+        font-weight: bold;
+        border: 2px solid #0c0090;
+        padding: 4px;
+        margin-right: 10px;
+        border-radius: 3px;
+        color: #0c0090
+    }
+    
+    .color_font {
+        color: #0c0090;
+    }
+    
+    .color_bold_font {
+        color: #0c0090;
+        font-weight: bold;
+    }
+    
+    .color_use {
+        background-color: #0c0090;
+        border: 2px solid #f0ad4e;
+    }
+    
+    .color_text {
+        color: #0c0090;
+        border: 2px solid #0c0090;
+    }
+    
+    #casillareloj {
+        border: none;
+        background: #f8f9fa;
+        width: 60px;
+        color: #0c0090;
+        font-weight: bold;
+    }
+    
+    #centrarUsuario {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    /*Ajusta la cronologia de twitter*/
+    
+    .twitstyle {
+        width: 70%;
+        overflow-y: scroll;
+        max-height: 780PX;
+        border: 1px solid rgba(0, 0, 0, .125);
+        margin-top: 5%
+    }
+    
+    td {
+        max-width: 150px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    
+    #img_modal {
+        width: 80px;
+    }
+    
+    @media (min-width: 768px) {
+        #sidebar-wrapper {
+            margin-left: 0;
+        }
+        #page-content-wrapper {
+            min-width: 0;
+            width: 100%;
+        }
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: -15rem;
+        }
+    }
+    
+    @media(max-width: 1000px) {
+        #tabla_modal {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    }
+    
+    @media (max-width: 800px) {
+        /*Poner barra deslizante a cierta medida a la tabla de productos*/
+        #tabla_modal {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    }

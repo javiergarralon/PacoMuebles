@@ -1,0 +1,36 @@
+/*estilo utilizado para darle un borde y una sombra al formulario*/
+
+.borde {
+    border: 0.05em solid #0c0090;
+    border-radius: 0.5em;
+    box-shadow: 5px 5px 5px #0c0090;
+}
+
+
+/*el color usado en la página para los textos y botones*/
+
+.color_use {
+    color: #0c0090
+}
+
+
+/*para el fondo del login*/
+
+body {
+    background-image: url('../img/fondo_muebles.jpg');
+}
+
+img {
+    width: 100%;
+}
+
+
+/*para centrar horizontal y verticalmente los elementos*/
+
+#centrar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
