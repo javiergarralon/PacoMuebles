@@ -18,7 +18,9 @@ Para conseguir más usabilidad y accesibilidad encontré un host gratuito con so
 ### `HTML5` `CSS3` `JavaScript` 
 
 **HTML5** - Estructurar el contenido.
+
 **CSS3** - Modificar la presentación y el diseño.
+
 **JavaScript** - Gestionar el contenido interactivo y dinámico.
 
 ### `JQuery` `BootStrap 4.5` `FontAwesome`
